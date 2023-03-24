@@ -19,6 +19,8 @@ jobs:
       contents: read
 
     steps:
+    - name: Install dependencies
+      run: npm install @actions/github
     - name: Assign label based on issue title
       uses: actions/github-script@v4
       with:
