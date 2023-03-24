@@ -1,0 +1,50 @@
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler
+
+name: Labeler
+on:
+  issues:
+    types: [opened]
+
+
+jobs:
+  label:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Assign label based on issue title
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const title = context.payload.issue.title.toLowerCase();
+          let label = '';
+          if (title.includes('T1')) {
+            label = 'Tarea1';
+          } else if (title.includes('Proyecto')) {
+            label = 'Proyecto';
+          } else if (title.includes('Etapa1')) {
+            label = 'Etapa1';
+          } else if (title.includes('Etapa2')) {
+            label = 'Etapa2';
+          } else if (title.includes('Etapa3')) {
+            label = 'Etapa3';
+          } else if (title.includes('CONTENIDO')) {
+            label = 'Contenido';
+          } else {
+            label = 'other';
+          }
+          const params = {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.payload.issue.number,
+            labels: [label]
+          };
+          await octokit.issues.addLabels(params);
