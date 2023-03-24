@@ -24,9 +24,9 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const github = require('@actions/github');
+          const gh = require('@actions/github');
           const token = process.env.GITHUB_TOKEN;
-          const octokit = new github.GitHub(token);
+          const octokit = new gh.GitHub(token);
           const title = context.payload.issue.title.toLowerCase();
           
           let label = '';
