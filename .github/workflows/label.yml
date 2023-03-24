@@ -24,19 +24,23 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+          const github = require('@actions/github');
+          const token = process.env.GITHUB_TOKEN;
+          const octokit = new github.GitHub(token);
           const title = context.payload.issue.title.toLowerCase();
+          
           let label = '';
-          if (title.includes('T1')) {
+          if (title.includes('t1')) {
             label = 'Tarea1';
-          } else if (title.includes('Proyecto')) {
+          } else if (title.includes('proyecto')) {
             label = 'Proyecto';
-          } else if (title.includes('Etapa1')) {
+          } else if (title.includes('etapa1')) {
             label = 'Etapa1';
-          } else if (title.includes('Etapa2')) {
+          } else if (title.includes('etapa2')) {
             label = 'Etapa2';
-          } else if (title.includes('Etapa3')) {
+          } else if (title.includes('etapa3')) {
             label = 'Etapa3';
-          } else if (title.includes('CONTENIDO')) {
+          } else if (title.includes('contenido')) {
             label = 'Contenido';
           } else {
             label = 'other';
@@ -48,3 +52,4 @@ jobs:
             labels: [label]
           };
           await octokit.issues.addLabels(params);
+          
